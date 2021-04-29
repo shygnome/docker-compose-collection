@@ -51,4 +51,32 @@ volumes:
     mysql:
 ```
 
+### Messaging
 
+- [Kafka](#Kafka)
+
+#### Kafka
+```yaml
+
+```
+
+### Dashboard
+
+- [CartoDB](#CartoDB)
+
+#### CartoDB
+```yaml
+version: '3.3'
+services:
+  cartodb:
+    image: sverhoeven/cartodb
+    hostname: ${HOSTNAME}
+    ports:
+        - "80:80"
+    restart: always
+    volumes:
+      - cartodb_pgdata:/var/lib/postgresql
+
+volumes:
+  cartodb_pgdata:
+```
