@@ -173,3 +173,40 @@ networks:
 ```
 
 #### ownCloud
+Ref: https://github.com/bitnami/bitnami-docker-owncloud.git
+```yaml
+version: '2'
+services:
+  mariadb:
+    image: docker.io/bitnami/mariadb:10.3
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=bn_owncloud
+      - MARIADB_DATABASE=bitnami_owncloud
+    volumes:
+      - 'mariadb_data:/bitnami/mariadb'
+  owncloud:
+    image: docker.io/bitnami/owncloud:10
+    ports:
+      - '11080:8080'
+      - '11443:8443'
+    environment:
+      - OWNCLOUD_DATABASE_HOST=mariadb
+      - OWNCLOUD_DATABASE_PORT_NUMBER=3306
+      - OWNCLOUD_DATABASE_USER=bn_owncloud
+      - OWNCLOUD_DATABASE_NAME=bitnami_owncloud
+      - ALLOW_EMPTY_PASSWORD=yes
+      # Host for accessing ownCloud
+      # note: this setting will only be applied on the first run
+      # ref: https://github.com/bitnami/bitnami-docker-owncloud#configuration
+      - OWNCLOUD_HOST=localhost
+    volumes:
+      - 'owncloud_data:/bitnami/owncloud'
+    depends_on:
+      - mariadb
+volumes:
+  mariadb_data:
+    driver: local
+  owncloud_data:
+    driver: local
+```
