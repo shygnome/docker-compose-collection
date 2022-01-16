@@ -6,7 +6,7 @@
 - [Messaging](#messaging)
 - [Dashboard](#dashboard)
 - [File Hosting](#file-hosting)
-- [Storage](#storage)
+- [Object Storage](#object-storage)
 
 ### Database
 
@@ -258,8 +258,9 @@ volumes:
     driver: local
 ```
 
-### Storage
+### Object Storage
 
+- [CloudServer]()
 - [MinIO](#minio)
 
 #### MinIO
