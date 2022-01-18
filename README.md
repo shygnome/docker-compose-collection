@@ -7,6 +7,7 @@
 - [Dashboard](#dashboard)
 - [File Hosting](#file-hosting)
 - [Object Storage](#object-storage)
+- [Image Proxy](#image-proxy)
 
 ### Database
 
@@ -56,6 +57,7 @@ volumes:
 ### Messaging
 
 - [Kafka](#kafka)
+- [RabbitMQ](#rabbitmq)
 
 #### Kafka
 Ref: https://dev.to/thegroo/one-to-run-them-all-1mg6
@@ -107,6 +109,40 @@ services:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
 ```
+
+#### RabbitMQ
+```yaml
+version: "3.2"
+services:
+  rabbitmq:
+    image: rabbitmq:3
+    command: >
+        /bin/bash -c "rabbitmq-plugins enable rabbitmq_mqtt;
+                      rabbitmq-plugins enable rabbitmq_web_mqtt;
+                      rabbitmq-plugins enable rabbitmq_management;
+                      rabbitmq-plugins enable rabbitmq_amqp1_0;
+                      rabbitmq-server"
+    container_name: 'rabbitmq'
+    ports:
+        - 5672:5672
+        - 15672:15672
+        - 1883:1883
+        - 15675:15675
+    environment:
+        RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+        RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    volumes:
+        - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/
+        - ./.docker/rabbitmq/log/:/var/log/rabbitmq
+        - ./.docker/rabbitmq/etc/:/etc/rabbitmq/
+    networks:
+        - rabbitmq_go_net
+
+networks:
+  rabbitmq_go_net:
+    driver: bridge
+```
+
 
 ### Dashboard
 
