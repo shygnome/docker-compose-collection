@@ -1,0 +1,7 @@
+# docker pull darthsim/imgproxy:latest
+# docker run -p 8080:8080 -it darthsim/imgproxy
+services:
+  imgproxy:
+    image: darthsim/imgproxy:v3.26.1
+    ports:
+      - ${IMGPROXY_PORT}:8080
